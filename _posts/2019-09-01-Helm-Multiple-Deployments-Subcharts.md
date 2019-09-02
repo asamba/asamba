@@ -103,7 +103,34 @@ subcharts inside the parent chart.
 
 `helm install --name greetings-app greetings`
 
-* This should deploy the greetings-app with the other 2 child applications with the associated containers/services.
+* This should deploy the greetings-app with the other 2 child 
+applications with the associated containers/services.
+* You can see the status of the 'greetings-app' with `helm status 
+greetings-app` and you should see the o/p as below which gives the 
+list of deployments, pods and the services by the 'greetings-app' 
+install.
+
+```console
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/Deployment
+NAME                      READY  UP-TO-DATE  AVAILABLE  AGE
+greetings-app-helloworld  1/1    1           1          38h
+greetings-app-hiworld     1/1    1           1          38h
+
+==> v1/Pod(related)
+NAME                                       READY  STATUS   RESTARTS  AGE
+greetings-app-helloworld-664d648c94-mvsvv  1/1    Running  0         38h
+greetings-app-hiworld-76745bc9ff-84k64     1/1    Running  0         38h
+
+==> v1/Service
+NAME                      TYPE      CLUSTER-IP      EXTERNAL-IP  PORT(S)         AGE
+greetings-app-helloworld  NodePort  10.107.151.148  <none>       8080:30647/TCP  38h
+greetings-app-hiworld     NodePort  10.100.165.29   <none>       8080:30565/TCP  38h
+
+```
+
 
 You can package the application with `helm package` as described in the helm documentation or the tutorial at [Using Helm and Kubernetes](https://www.baeldung.com/kubernetes-helm)
  
