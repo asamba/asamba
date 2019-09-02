@@ -1,6 +1,6 @@
 ---
-title: "Kubernetes-Helm Deploying Multiple Applications(containers) 
-- Packaging with Subcharts"
+title: "Kubernetes-Helm Deploying Multiple Apps(containers) Using 
+SubCharts"
 published: true
 ---
 
