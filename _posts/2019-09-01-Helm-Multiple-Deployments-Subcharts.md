@@ -49,8 +49,7 @@ This post is stemming with my play-work with kubernetes where I wanted to instal
 * Delete templates/tests, ingress.yaml and remove the ingress references in NOTES.txt
 * Edit the values.yaml file to look like following. Note: I am using 
 NodePort you can try LoadBalancer if on cloud. A very nice post on 
-the topic is at  
-[When should I use what?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
+the topic is at [When should I use what?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
 
 ```yaml
 replicaCount: 1
