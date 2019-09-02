@@ -4,8 +4,7 @@ title: "Kubernetes-Helm Deploying Multiple Applications(containers)
 published: true
 ---
 
-This is my first real post in the newly setup [my-github pages]
-(https://asamba.github.io) and using [Markdown](https://guides.github
+This is my first real post in the newly setup [my GitHub Page](https://asamba.github.io) and using [Markdown](https://guides.github
 .com/features/mastering-markdown/).
 
 This post is stemming with my play-work with kubernetes where I wanted to install multiple apps (containers/services) with a single command. The rescue came in the way of [Helm](https://helm.sh/) - A package manager for Kubernetes. This will describe how to install/manage multiple apps (containers/services). You might want to reference [Using Helm and Kubernetes](https://www.baeldung.com/kubernetes-helm) for a single application deployment.
@@ -49,7 +48,7 @@ that returns "Hi World" or alternatively create a static page
 ### Step-2: Create the Charts & Package with Subcharts
 
 #### Create Subchart for Child application - helloworld & hiworld
-* Generate sample chart using ```helm create helloworld``` - this should create a folder helloworld with sub-folders/files inside. 
+* Generate sample chart using `helm create helloworld` - this should create a folder helloworld with sub-folders/files inside. 
 * Delete templates/tests, ingress.yaml and remove the ingress references in NOTES.txt
 * Edit the values.yaml file to look like following. Note: I am using 
 NodePort you can try LoadBalancer if on cloud. A very nice post on 
