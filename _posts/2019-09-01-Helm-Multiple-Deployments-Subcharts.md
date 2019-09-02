@@ -1,6 +1,7 @@
 ---
 title: "Kubernetes-Helm Deploying Multiple Applications(containers) by Subcharts"
 published: true
+tags: helm, kubernetes, packaging, multiple containers
 ---
 
 This is my first post in the newly setup [my-git-hub pages](https://asamba.github.io). 
@@ -24,8 +25,9 @@ This post is stemming with my play-work with kubernetes where I wanted to instal
 
 ```console
 % mvn package
-% docker build -t asamba\helloworld:v1 
-% docker push asamba\helloworld:v1
+% docker build -t asamba/helloworld:v1 
+% docker push asamba/helloworld:v1
+# replace asamba with your own dockerhub repo
 ```
 
 #### Create Child Service - hiworld 
@@ -34,8 +36,8 @@ This post is stemming with my play-work with kubernetes where I wanted to instal
 
 ```console
 % mvn package
-% docker build -t asamba\hiworld:v1 
-% docker push asamba\hiworld:v1
+% docker build -t asamba/hiworld:v1 
+% docker push asamba/hiworld:v1
 ```
 
 ### Step-2: Create the Charts
