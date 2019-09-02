@@ -4,7 +4,7 @@ published: true
 tags: helm, kubernetes, packaging, multiple containers
 ---
 
-This is my first real post in the newly setup [my-git-hub pages]
+This is my first real post in the newly setup [my-github pages]
 (https://asamba.github.io). 
 
 This post is stemming with my play-work with kubernetes where I wanted to install multiple apps (containers/services) with a single command. The rescue came in the way of [Helm](https://helm.sh/) - A package manager for Kubernetes. This will describe how to install/manage multiple apps (containers/services). You might want to reference [Using Helm and Kubernetes](https://www.baeldung.com/kubernetes-helm) for a single application deployment.
