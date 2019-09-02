@@ -17,6 +17,7 @@ This post is stemming with my play-work with kubernetes where I wanted to instal
 | 2 | Child-1 | helloworld |
 | 3 | Child-2 | hiworld |
 
+<br>
 
 ### Step-1: Create the Services
 
@@ -66,9 +67,10 @@ service:
   type: NodePort
   port: 8080
 
+#template deployment.yaml has this value to be injected and is not part of the generation
+#you may be fine if you use the spring-boot container server.port as 80
 containerPort:
   port: 8080
-
 ```
 
 * Verify the chart with `helm lint helloworld` and ensure there are 
@@ -81,6 +83,8 @@ helloworld`
 * Generate sample chart using `helm create greetings` 
 * Delete all the files unders templates/ folder
 * Create a new file `requirements.yaml` under greetings/ with the below content
+* Copy the subcharts 'helloworld' and 'hiworld' inside the 
+greetings/charts folder
 
 ```yaml
 dependencies:
@@ -88,6 +92,12 @@ dependencies:
   - name: hiworld
 
 ```
+
+Note: This approach can be reversed as well. You can create the 
+parent chart and then create the subcharts by `helm create 
+helloworld` and `helm create hiworld` inside the greetings/charts 
+folder. Either way the end result is the same - you will have 
+subcharts inside the parent chart.
 
 ### Step-3: Deploy the app
 
@@ -109,7 +119,7 @@ dependencies:
     version: 0.1.0
     tags:
       - helloworld
-  - name: hi-app
+  - name: hiworld-app
     repository: https://raw.githubusercontent.com/asamba/myhelmcharts/master/
     version: 0.1.0
     tags:
@@ -123,8 +133,12 @@ In summary - Helm is awesome and helps you to package applications
 and manage (install, delete, upgrade, rollback) with a single command.
  No more multiple files need to be run in seq like `kubectl apply -f hiworld-deployment.yaml` `kubectl apply -f hiworld-service.yaml` for each application you want to maintain along with common ones like `ingress.yaml` etc.
 
-### My Source Code Reference that is used to describe the above
-
-* [Charts](https://github.com/asamba/greetings-charts) 
-* [HelloWorld Source Code](https://github.com/asamba/helloworld)
-* [HiWorld Source Code](https://github.com/asamba/hiworld)
+### References 
+* [Helm Docs - Chart Dependency SubCharts](https://helm
+.sh/docs/glossary/#chart-dependency-subcharts) 
+* [Helm Docs - Creating a SubChart](https://helm
+.sh/docs/chart_template_guide/#creating-a-subchart) 
+* Source Code references that were used in the blog as example
+  - [Charts Source](https://github.com/asamba/greetings-charts) 
+  - [HelloWorld Source Code](https://github.com/asamba/helloworld)
+  - [HiWorld Source Code](https://github.com/asamba/hiworld)
