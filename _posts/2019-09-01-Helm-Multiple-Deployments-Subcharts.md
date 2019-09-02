@@ -4,7 +4,9 @@ published: true
 tags: helm, kubernetes, packaging, multiple containers
 ---
 
-This is my first real post in the newly setup [my-github pages](https://asamba.github.io). 
+This is my first real post in the newly setup [my-github pages]
+(https://asamba.github.io) and using [Markdown](https://guides.github
+.com/features/mastering-markdown/).
 
 This post is stemming with my play-work with kubernetes where I wanted to install multiple apps (containers/services) with a single command. The rescue came in the way of [Helm](https://helm.sh/) - A package manager for Kubernetes. This will describe how to install/manage multiple apps (containers/services). You might want to reference [Using Helm and Kubernetes](https://www.baeldung.com/kubernetes-helm) for a single application deployment.
  
@@ -45,7 +47,10 @@ This post is stemming with my play-work with kubernetes where I wanted to instal
 #### Create Subchart for Child application - helloworld & hiworld
 * Generate sample chart using ```helm create helloworld``` - this should create a folder helloworld with sub-folders/files inside. 
 * Delete templates/tests, ingress.yaml and remove the ingress references in NOTES.txt
-* Edit the values.yaml file to look like following
+* Edit the values.yaml file to look like following. Note: I am using 
+NodePort you can try LoadBalancer if on cloud. A very nice post on 
+the topic is at  
+[When should I use what?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
 
 ```yaml
 replicaCount: 1
@@ -86,10 +91,12 @@ dependencies:
 
 * This should deploy the greetings-app with the other 2 child applications with the associated containers/services.
 
-### You can package the application with `helm package` as described in the helm documentation or the tutorial at [Using Helm and Kubernetes](https://www.baeldung.com/kubernetes-helm)
+You can package the application with `helm package` as described in the helm documentation or the tutorial at [Using Helm and Kubernetes](https://www.baeldung.com/kubernetes-helm)
  
-### Step-2 (Alternative): Another way to create the dependent-child applications are as below
-* Package your child applications and host in a http server; best with github and create the requirements.yaml as below (sample)
+### Step-2 (Alternative - Dependency Chart Creation) 
+Another way to create the dependent-child applications are as below
+* Package your child applications with `helm package` and host in a 
+http server; best hosted with github and create the requirements.yaml as below (sample)
 
 ```yaml
 dependencies:
