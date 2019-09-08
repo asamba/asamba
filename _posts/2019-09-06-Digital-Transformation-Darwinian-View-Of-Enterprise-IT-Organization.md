@@ -65,7 +65,7 @@ apparel companies digitizing the design process was able to move away
 Adding to this is my view that the foundation of these pillars ought 
 to be the  existing  - "IT Organization" - illustrated as below. 
  
-<img src="/assets/images/digital-transformation/Digital-Transformation-Pillars.png" width="700" height="500" />
+<img src="assets/images/digital-transformation/Digital-Transformation-Pillars.png" width="700" height="500" />
  
 There is no one way for digital transformation and needless to say it
  would be attributed to what the enterprise wants to achieve based on
@@ -124,7 +124,7 @@ The **change** is best done in an evolving fashion "Darwinism"
 
 _Illustrated view of change in context to a development of a product/application life-cycle:-_
 
-<img src="/assets/images/digital-transformation/Digital-Transformation-Darwinism-And-Exp-Pic3.png" width="700" height="450" />
+<img src="assets/images/digital-transformation/Digital-Transformation-Darwinism-And-Exp-Pic3.png" width="700" height="450" />
 
 
 In **summary** - digital transformation for an IT Organization is about 
