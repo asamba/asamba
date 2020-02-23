@@ -3,16 +3,15 @@ title: Messaging At Ease - Powered by Kafka!
 published: true
 ---
 
-I have some exposure to traditional enterprise wide deployed 
+I have exposure to traditional enterprise wide deployed 
 messaging systems (typically JMS based and some AMQP based at later 
-stages). While we had tried to see Kafka was a fit-for-purpose tool for 
-the use-cases it was only experimentational. 
+stages). Kafka was only experimentational to see if it is a 
+fit-for-purpose tool for the use-cases at hand. This blog is a 
+refresher for me - thought will implement a sample use-case and see 
+how to leverage the features that seems out of box and specific for 
+a particular transport/flow based on code/configuration.
 
-This blog is a refresher for me - thought will implement a sample 
-use-case and see how to leverage the features that seems out of box 
-and specific for a particular transport/flow.
-
-### What is Kafka? 
+### Kafka 
 Kafka is a high through put distributed messaging platform 
 platform typically used as a transport mechanism. It does not do any 
 application processing except if you fiddle with kafka-streams.
@@ -50,14 +49,15 @@ crude visualization
 
 ### Features that caught me
 
-Features that caught my eye that is super-cool to leverage and out of
+Few features that caught my eye that is so nice to leverage and out of
  box  - without a single line of code! (hey - less code is less bugs)
  
 * Idempotent Producer
     - This is out of box! How cool if messaging system would know 
     that it has already seen the message when the producer is sending
-     the message but the ack did not reach. It discards the message 
-     and not send it again.
+     the message but the ack did not reach and when the producer 
+     sends it again - it just discards the dup!
+      
 * Safe Producer 
    - How cool if we just have to do some configuration based on the 
    particular producer say - number of retries, acks, ordering. 
@@ -75,10 +75,12 @@ Producer{
 }
 ```
 * Optimize for ThroughPut - producer level
-    - How nice to just add a few properties and it does the 
-    compression (and the choice of compression - who would not use 
-    snappy!) and batching at a producer level. This would be nice so
-     maintain at the code level is't?
+    - Another nice one is we just add a few properties and it 
+    does the compression (and the choice of compression - snappy!) 
+    and batching at a producer level. I produce the message - I know 
+    how best to compress, how critical is the message and how many 
+    times it should retry (is ever the default!)
+    
 ```console
         //High thruput settings
         properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");//use 1 for ordering
@@ -105,11 +107,12 @@ Producer{
 * Ah, the commits and the bulk requests
     - Choice of committing the data at choice rather than just 
     auto-commit and so it helps in re-play of messages. And I can do 
-    bulk request as a choice.
+    bulk request as a choice. I just repub the message moving the 
+    offset - rather than asking upstream producers to send again!
     
-Given the management, monitoring and others features like connect, 
-streams are super nice; I think the power kafka brings is the choice and
- the flexibility it brings at the producer, consumer level which can 
- be implemented by engineer for the use-case that is right and 
- fit-for-purpose! 
+Besides monitoring, security and management features and the cluster 
+configuration that Kafka brings to be table -- I think the real power
+is the choice and flexibilty it brings to the engineers/developers 
+when they produce/consume the message that is right and 
+fit-for-purpose for that particular flow.
     
