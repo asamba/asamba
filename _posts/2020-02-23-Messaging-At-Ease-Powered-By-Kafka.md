@@ -43,14 +43,17 @@ middleware and the learning from the sample impl.
 not using Kafka connect)
 * Setup consumer/consumer-groups
 * Sinked data to elastic search
-    - Used cloud based bonsai.io -- this so cool and free!
+    - Used cloud based [bonsai.io](https://bonsai.io/) -- this so cool and free!
 * Setup Kibana again used the cool free bonsai.io for some 
 crude visualization
 
 ### Features that caught me
 
-Few features that caught my eye that is so nice to leverage and out of
- box  - without a single line of code! (hey - less code is less bugs)
+Few features that caught my eye that is so nice to leverage and 
+out of box  - without a single line of code! (hey - less code is less
+ bugs). Note: I am trying to highlight the features that Kafka from 
+ the platform point of view brings to the table cluster 
+ configuration, partitions, replication etc!
  
 * Idempotent Producer
     - This is out of box! How cool if messaging system would know 
@@ -63,6 +66,7 @@ Few features that caught my eye that is so nice to leverage and out of
    particular producer say - number of retries, acks, ordering. 
    This is ease at producer level rather than configuration on the 
    broker/topic level. Below is all we need to set for that producer!
+
 ```console
 Producer{
 ...
@@ -74,6 +78,7 @@ Producer{
 ...        
 }
 ```
+
 * Optimize for ThroughPut - producer level
     - Another nice one is we just add a few properties and it 
     does the compression (and the choice of compression - snappy!) 
