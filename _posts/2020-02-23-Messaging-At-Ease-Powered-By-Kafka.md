@@ -5,16 +5,15 @@ published: true
 
 I have exposure to traditional enterprise wide deployed 
 messaging systems (typically JMS based and some AMQP based at later 
-stages). Kafka was only experimentational to see if it is a 
+stages). Kafka was only experimentational to see if it was a 
 fit-for-purpose tool for the use-cases at hand. This blog is a 
 refresher for me - thought will implement a sample use-case and see 
-how to leverage the features that seems out of box and specific for 
-a particular transport/flow based on code/configuration.
+how to leverage the features mostly from the producer, consumer perspective rather than from the platform perspective; the features that seems out of box when compared to typical messaging systems like say JMS.
 
 ### Kafka 
 Kafka is a high through-put distributed messaging platform 
 platform typically used as a transport mechanism. Note: It does not do 
-any application processing unless you fiddle with kafka-streams.
+any application processing unless you fiddle some using kafka-streams.
 
 
 ### Typical use-cases for using Kafka
@@ -54,33 +53,22 @@ width="700" height="150" />
 
 Few features that caught my eye that is so nice to leverage and 
 out of box  - without a single line of code! And this is contextual 
-to the old messaging systems (say JMS). Note: I
+to the typical messaging systems (say JMS). Note: I
  am *not* trying to highlight the features that Kafka has from the 
  platform point of view like cluster 
  configuration, brokers (bootstrap brokers) partitions, replication 
- etc! The below is just a list of things from the Message Producer, 
+ etc! The below is just a list of features from the Message Producer, 
  Consumer point rather.
  
 * Idempotent Producer
-    - This is out of box! How cool if messaging system would know 
-    that it has already seen the message when the producer is sending
-     the message but the ack did not reach and when the producer 
-     sends it again - it just discards the dup!
-    - When I compare with the old messaging systems (say JMS) - this is 
-    difficult to do. Producer will always send the message and it is 
-    left actually on the consumer application to check if they have 
-    seen the message and ignore. No good.
+    - This is out of box! The messaging system would know 
+    that it has already seen the message when the producer is resending
+     the message and it just discards the dup! I dont know if JMS can even do this - if n/w fails in between I believe the message will be twice.
 
 <br/>
 
 * Safe Producer 
-   - How cool if we just have to do some configuration based on the 
-   particular producer say - number of retries, acks, ordering. 
-   This is ease at producer level rather than configuration on the 
-   broker/topic level. Below is all we need to set for that producer!
-   - While old messaging systems (say JMS) has some features like 
-   retry and then move to DLQ; the nice thing here it is the producer
-    which decides so the control is on the app
+   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective.
 
 ```console
 Producer{
@@ -97,9 +85,9 @@ Producer{
 * Optimize for ThroughPut - producer level
     - Another nice one is we just add a few properties and it 
     does the compression (and the choice of compression - snappy!) 
-    and batching at a producer level. I produce the message - I know 
+    and batching at a producer level. I am a producer I produce the message - I know 
     how best to compress, how critical is the message and how many 
-    times it should retry (is ever the default!)
+    times it should retry.
    
 <br/>
   
@@ -115,11 +103,7 @@ Producer{
 ```
 
 * Idempotent Consumer
-    - Relieve apps of the burden to check if it has already processed
-     the message and if the messaging system will take care and not 
-     send.
-    - Old messaging systems (say JMS) leave this to the application 
-    to check rather than the messaging system de-dup it!   
+    - Dup-detection is configurable; id based and handled well in messaging system rather than at the application level. 
 
 <br/>
     
