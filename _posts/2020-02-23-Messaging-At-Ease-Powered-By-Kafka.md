@@ -48,7 +48,7 @@ not using Kafka connect)
 crude visualization
 
 <img src="/assets/images/Messaging-Kafka-Application_Arch.PNG" 
-width="700" height="100" />
+width="700" height="150" />
 
 ### Features that caught me
 
@@ -118,6 +118,7 @@ Producer{
      send.
     - Old messaging systems (say JMS) leave this to the application 
     to check rather than the messaging system de-dup it!   
+
 <br/>
     
 * Poll Behaviour
@@ -130,6 +131,7 @@ Producer{
       give me out of the box with properties set at the 
       consumer/group level - I just would use it, I know my app and I
        know how best to consume!
+
 <br/>       
 
 * Commits and the bulk requests
@@ -142,7 +144,7 @@ Producer{
     
 Besides monitoring, security and management features and the cluster 
 configuration that Kafka brings to be table -- I think the real power
-is the choice and flexibilty it brings to the engineers/developers 
+is the choice and flexibility it brings to the engineers/developers 
 when they produce/consume the message that is right and 
 fit-for-purpose for that particular flow.
     
