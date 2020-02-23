@@ -52,7 +52,7 @@ width="700" height="150" />
 ### Features that caught me
 
 Few features that caught my eye that is so nice to leverage and 
-out of box  - without a single line of code! And this is contextual 
+out of box almost with just a few configuration properties! And this is contextual 
 to the typical messaging systems (say JMS). Note: I
  am *not* trying to highlight the features that Kafka has from the 
  platform point of view like cluster 
