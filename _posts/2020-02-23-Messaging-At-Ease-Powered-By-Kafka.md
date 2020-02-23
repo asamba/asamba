@@ -55,9 +55,11 @@ width="700" height="150" />
 Few features that caught my eye that is so nice to leverage and 
 out of box  - without a single line of code! And this is contextual 
 to the old messaging systems (say JMS). Note: I
- am *not* trying to highlight the features that Kafka from the 
- platform point of view brings to the table cluster 
- configuration, partitions, replication etc!
+ am *not* trying to highlight the features that Kafka has from the 
+ platform point of view like cluster 
+ configuration, brokers (bootstrap brokers) partitions, replication 
+ etc! The below is just a list of things from the Message Producer, 
+ Consumer point rather.
  
 * Idempotent Producer
     - This is out of box! How cool if messaging system would know 
