@@ -68,7 +68,7 @@ to the typical messaging systems (say JMS). Note: I
 <br/>
 
 * Safe Producer 
-   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective.
+   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective from the typical messaging implementations (say JMS).
 
 ```console
 Producer{
@@ -95,15 +95,15 @@ Producer{
 Producer{
 ...
         //High thruput settings
-        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");//use 1 for ordering
-        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");//use 1 for ordering
-        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024));//use 1 for ordering
+        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
+        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024));//use 1 for ordering and that is within the partitiion
 ...
 }
 ```
 
 * Idempotent Consumer
-    - Dup-detection is configurable; id based and handled well in messaging system rather than at the application level. 
+    - Dup-detection is configurable; id based (either business key or a combination of say topic_partition_somekey) and handled well in messaging system rather than at the application level. App does not have to check if they have seen this message and discard, messaging system will take care. Btw there are implementations of these in other messaging systems like ActiveMQ as well.
 
 <br/>
     
@@ -133,4 +133,6 @@ configuration that Kafka brings to be table -- I think the real power
 is the choice and flexibility it brings to the engineers/developers 
 when they produce/consume the message that is right and 
 fit-for-purpose for that particular flow.
+
+In summary, the feature that Kafka offers when combined with its architecture (distributed, scalable-horizontally, low-latency) and the flexibility it provides from the producer/consumer perpective oriented to particular use-case is powerful. A system is nice when it is generic but configurable to be specific without a lot of work-arounds, code-changes and exception-error handling. Kafka seems to offer this.
     
