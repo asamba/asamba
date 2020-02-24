@@ -68,7 +68,7 @@ to the typical messaging systems (say JMS). Note: I
 <br/>
 
 * Safe Producer 
-   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective for typical messaging implementations (say JMS).
+   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configuration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective for typical messaging implementations (say JMS).
 
 ```console
 Producer{
@@ -77,7 +77,7 @@ Producer{
         properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
         properties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
         properties.setProperty(ProducerConfig.RETRIES_CONFIG, "100");
-        properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");//use 1 for ordering
+        properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");//use 1 for ordering and that is within the partition
 ...        
 }
 ```
@@ -97,7 +97,7 @@ Producer{
         //High thruput settings
         properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
         properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
-        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024));//use 1 for ordering and that is within the partitiion
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024));
 ...
 }
 ```
