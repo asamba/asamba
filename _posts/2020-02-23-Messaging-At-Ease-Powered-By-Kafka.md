@@ -11,7 +11,7 @@ refresher for me - thought will implement a sample use-case and see
 how to leverage the features mostly from the producer, consumer perspective rather than from the platform perspective; the features that seems out of box when compared to typical messaging systems like say JMS.
 
 ### Kafka 
-Kafka is a high through-put distributed messaging platform 
+Kafka is a high throughput distributed messaging platform 
 platform typically used as a transport mechanism. Note: It does not do 
 any application processing unless you fiddle some using kafka-streams.
 
@@ -26,7 +26,7 @@ any application processing unless you fiddle some using kafka-streams.
  along side with spark(some change this newly introduced streams)
 
 Intention is not to go thru Kafka features and architecture - 
-books, blogs are plenty, the idea is just list bullet out the points
+books, blogs are plenty, the idea is just list out the points
 that I thought we could have leveraged at ease when using a JMS based 
 middleware and the learning from the sample impl.
 
@@ -68,7 +68,7 @@ to the typical messaging systems (say JMS). Note: I
 <br/>
 
 * Safe Producer 
-   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective from the typical messaging implementations (say JMS).
+   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective for typical messaging implementations (say JMS).
 
 ```console
 Producer{
@@ -107,7 +107,7 @@ Producer{
 
 <br/>
     
-* Poll Behaviour
+* Consumer controls what to do - Poll Behaviour
     - Kafka is poll based against typical messaging systems consumers
      are push based! This provides how to batch systems, size of 
      batches it want to retrieve, the interval to wait and the size. 
