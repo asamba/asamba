@@ -160,12 +160,4 @@ powerful platform for messaging and at ease. [why ease? I could setup
  the application that I described earlier in my laptop in a matter 
  for few hours and it works!]
  
-
-Besides monitoring, security and management features and the cluster 
-configuration that Kafka brings to be table -- I think the real power
-is the choice and flexibility it brings to the engineers/developers 
-when they produce/consume the message that is right and 
-fit-for-purpose for that particular flow.
-
-In summary, the feature that Kafka offers when combined with its architecture (distributed, scalable-horizontally, low-latency) and the flexibility it provides from the producer/consumer perpective oriented to particular use-case is powerful. A system is nice when it is generic but configurable to be specific without a lot of work-arounds, code-changes and exception-error handling. Kafka seems to offer this.
     
