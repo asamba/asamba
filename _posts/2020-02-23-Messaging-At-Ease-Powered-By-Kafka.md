@@ -6,15 +6,20 @@ published: true
 I have exposure to traditional enterprise wide deployed 
 messaging systems (typically JMS based and some AMQP based at later 
 stages). Kafka was only experimentational to see if it was a 
-fit-for-purpose tool for the use-cases at hand. This blog is a 
-refresher for me - thought will implement a sample use-case and see 
-how to leverage the features mostly from the producer, consumer perspective rather than from the platform perspective; the features that seems out of box when compared to typical messaging systems like say JMS.
-
+fit-for-purpose tool for the use-cases at hand. This blog is part of 
+the refresher and my reading through newer messaging technology - 
+Kafka. The idea is to implement a sample use-case and to compare and 
+see the features that Kafka brings to the table comparing against 
+typical messaging technologies (JMS). The idea is not to list the 
+difference from the Kafka platform and architecture perspective - 
+e.g. distributed, scalable nature; rather it is to list the features 
+that are from the messaging - producer/consumer perspective. 
+ 
 ### Kafka 
 Kafka is a high throughput distributed messaging platform 
-platform typically used as a transport mechanism. Note: It does not do 
-any application processing unless you fiddle some using kafka-streams.
-
+typically used as a transport mechanism. Note: It is not used as 
+application processing tool with business rules except on one new 
+add-on with Kafka-Streams.
 
 ### Typical use-cases for using Kafka
 * Messaging and decoupling systems  
@@ -25,50 +30,55 @@ any application processing unless you fiddle some using kafka-streams.
 * Typically used in micro-services architecture, big-data integration
  along side with spark(some change this newly introduced streams)
 
-Intention is not to go thru Kafka features and architecture - 
-books, blogs are plenty, the idea is just list out the points
-that I thought we could have leveraged at ease when using a JMS based 
-middleware and the learning from the sample impl.
-
 ### Application implementation 
 
-* Installed and configured Kafka with topic created 
-* Source data from twitter 
-    - Java based 
-    - Created a twitter app
-    - Generated keys for access 
-    - Sourced the tweets
-* Published tweets to Kafka on the topic of choice (java based and 
-not using Kafka connect)
-* Setup consumer/consumer-groups
-* Sinked data to elastic search
-    - Used cloud based [bonsai.io](https://bonsai.io/) -- this so cool and free!
-* Setup Kibana again used the cool free bonsai.io for some 
-crude visualization
+The sample application would source tweets from twitter publish to 
+a kafka cluster and sinked to an elasticsearch and visualization 
+setup in Kibana. Application setup steps:
+ 
+* Install and configure Kafka with a tweets_topic 
+* Source data from twitter - java client connecting to the twitter 
+app with required auth keys
+* Sourced tweets published to Kafka
+* Consume tweets from Kafka topic with consumer/consumer-groups
+* Sink them to elastic-search cluster
+* Setup visualization with Kibana
+Note: Elastic cluster and Kibana are setup on cloud hosted [bonsai.io](https://bonsai.io/)
+
+Application Design:-
 
 <img src="/assets/images/Messaging-Kafka-Application_Arch.PNG" 
 width="700" height="150" />
 
 ### Features that caught me
 
-Few features that caught my eye that is so nice to leverage and 
-out of box almost with just a few configuration properties! And this is contextual 
-to the typical messaging systems (say JMS). Note: I
- am *not* trying to highlight the features that Kafka has from the 
- platform point of view like cluster 
- configuration, brokers (bootstrap brokers) partitions, replication 
- etc! The below is just a list of features from the Message Producer, 
- Consumer point rather.
+Below listing are the features from the Message Producer, Consumer 
+point of view. The listing does not talk about Kafka from the overall
+ platform and architecture point of view like cluster configuration, 
+ brokers (bootstrap brokers) partitions, replication etc! 
  
 * Idempotent Producer
-    - This is out of box! The messaging system would know 
-    that it has already seen the message when the producer is resending
-     the message and it just discards the dup! I dont know if JMS can even do this - if n/w fails in between I believe the message will be twice.
-
+    - An out of the box feature offered by Kafka - where the 
+    messaging system (the broker) is intelligent enough to know that 
+    it has already seen the message and discards it as duplicate. 
+    This occurs when for some reason the message-producer re-sends 
+    the message (say the n/w failed when the message-broker was 
+    sending a JMS-Ack and the producer re-sends the message). This 
+    is not a out-of-box feature that JMS message-brokers have by 
+    default atleast; the onus lies with the subscription system 
+    rather to discard them.  
+    
 <br/>
 
 * Safe Producer 
-   - Producers send quality associated attributes like retries, acks, ordering etc. The ease at configuration option to set these at producer level rather than the configuration on the broker/destination (topic) is a nice feature. This is a slightly difficult from a producer perspective for typical messaging implementations (say JMS).
+   - A safe-producer (retry, acks etc) in Kafka is a configurable 
+   feature setup at a message-producer level rather than the configuration on a 
+   broker/destination level. 
+   - This is a good one especially if we think that it is best known 
+   for a producer to know the criticality of the message rather than 
+   at a broker/destination level. e.g on a notification topic - say 
+   the message producer with information notification does not need 
+   to have the Acks from all the broker partitions. 
 
 ```console
 Producer{
@@ -83,12 +93,13 @@ Producer{
 ```
 
 * Optimize for ThroughPut - producer level
-    - Another nice one is we just add a few properties and it 
-    does the compression (and the choice of compression - snappy!) 
-    and batching at a producer level. I am a producer I produce the message - I know 
-    how best to compress, how critical is the message and how many 
-    times it should retry.
-   
+    - Kafka lets the Message producer decide how best to 
+    optimize the throughput of the message by setting properties e.g 
+    compression choice - say use google-snappy rather than simple zip
+     and batching of the messages. 
+    - This is a nice feature especially if we take the specialized 
+    approach like earlier that the message-producer knows the message
+     and decided how best to batch, compress to increase throughput.  
 <br/>
   
 ```console
@@ -103,31 +114,53 @@ Producer{
 ```
 
 * Idempotent Consumer
-    - Dup-detection is configurable; id based (either business key or a combination of say topic_partition_somekey) and handled well in messaging system rather than at the application level. App does not have to check if they have seen this message and discard, messaging system will take care. Btw there are implementations of these in other messaging systems like ActiveMQ as well.
-
+    - Idempotent consumer is a feature that removes the 
+    burden from applications implementing logic to detect 
+    duplication. Kafka-consumers can be configured with ids (business
+     key or a combination of say topic_partition_somekey) that the 
+    kafka message broker will use to detect and purge the duplicate 
+    messages. Note: Typical JMS/AMQP implementations like ActiveMQ 
+    has these features as well, so not a unique feature but a nice 
+    out of box configurable feature.
+    
 <br/>
     
-* Consumer controls what to do - Poll Behaviour
-    - Kafka is poll based against typical messaging systems consumers
-     are push based! This provides how to batch systems, size of 
-     batches it want to retrieve, the interval to wait and the size. 
-     For e.g. if my use-case does and need all the data immediately 
-     rather my application is a bulk processor why get the message as
-      a stream immediate and rather if the messaging system would 
-      give me out of the box with properties set at the 
-      consumer/group level - I just would use it, I know my app and I
-       know how best to consume!
+* Consumer in control 
+    - The polling behaviour of Kafka lets consumers configure how 
+    best to retrieve the messages from the kafka-cluster. Consumer 
+    by configuration are empowered to poll data for batches at 
+    defined intervals or with batch-size exceeding certain limit 
+    rather than getting the messages as it is published. 
+    - The idea is the consumer is best to judge how to consumer 
+    rather than the broker just pushing the messages as they get 
+    published
 
 <br/>       
 
 * Commits and the bulk requests
-    - Choice of committing the data at choice rather than just 
-    auto-commit - while this feature exists in messaging systems it 
-    does not have out of the box features on bulk request, batch etc. 
-    Well you might still want to store the message in a secondary 
-    storage like DB for replay or audit purposes (or if it is just 
-    audit I would log, send to Splunk/ELK - just a design/impl choice)
+    - Message commits have choice - auto-commit or by consumers 
+    deciding when to commit. 
+    - While this is not a new feature of Kakfa - this give more 
+    choices with configurable features like commit after 
+    bulk-request, batch. 
+    - This feature also enables consumers to use Kafka as a 
+    persistent mechanism - to retrieve data at will from a location 
+    of choice. 
     
+In summary, Kafka seems a great choice for messaging that empowers 
+Message Producers and Message Consumers to decide how and when they 
+want to pub/sub messages which is a bit different from typical 
+messaging systems which does not have a great deal of flexibilty 
+and the QoS is often dictated/configured at a broker/destination 
+level. 
+
+This added to the architecture, platform, monitoring, security and 
+management features that Kafka as a whole offers makes Kafka a 
+powerful platform for messaging and at ease. [why ease? I could setup
+ the application that I described earlier in my laptop in a matter 
+ for few hours and it works!]
+ 
+
 Besides monitoring, security and management features and the cluster 
 configuration that Kafka brings to be table -- I think the real power
 is the choice and flexibility it brings to the engineers/developers 
