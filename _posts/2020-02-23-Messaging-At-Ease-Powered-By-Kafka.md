@@ -13,13 +13,15 @@ see the features that Kafka brings to the table comparing against
 typical messaging technologies (JMS). The idea is not to list the 
 difference from the Kafka platform and architecture perspective - 
 e.g. distributed, scalable nature; rather it is to list the features 
-that are from the messaging - producer/consumer perspective. 
+that are from Message-Producer/Consumer perspective. 
  
 ### Kafka 
 Kafka is a high throughput distributed messaging platform 
-typically used as a transport mechanism. Note: It is not used as 
-application processing tool with business rules except on one new 
-add-on with Kafka-Streams.
+typically used as a transport mechanism. Note: It is not typically used
+ as application processing tool with business rules except when 
+ combined with kafka-streams where you can do some application 
+ processing logic. (it is claimed that it can infact be an alternative
+  to processing frameworks like Apache-Spark)
 
 ### Typical use-cases for using Kafka
 * Messaging and decoupling systems  
@@ -144,15 +146,21 @@ Producer{
     choices with configurable features like commit after 
     bulk-request, batch. 
     - This feature also enables consumers to use Kafka as a 
-    persistent mechanism - to retrieve data at will from a location 
-    of choice. 
+    persistent mechanism - to retrieve data at will from the point of
+     choice. Kafka can re-play the messages on a commit-reset and the
+      consumer can simply process them again. This is not something 
+      available with the typical messaging systems - the messages 
+      once delivered-acknowledged are gone from the broker. The onus 
+      lies with the publishing system to re-create/publish them again
+       or the consumer get them by other choices with IT support 
+       intervention.
     
 In summary, Kafka seems a great choice for messaging that empowers 
 Message Producers and Message Consumers to decide how and when they 
 want to pub/sub messages which is a bit different from typical 
-messaging systems which does not have a great deal of flexibilty 
-and the QoS is often dictated/configured at a broker/destination 
-level. 
+messaging systems which does not have a great deal of flexibilty- the
+ QoS of typical systems are often dictated/configured at a 
+ broker/destination level. 
 
 This added to the architecture, platform, monitoring, security and 
 management features that Kafka as a whole offers makes Kafka a 
